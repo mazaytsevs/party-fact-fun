@@ -1,5 +1,6 @@
 
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useGameStore } from '../store/gameStore';
 import { PartyCard } from '../components/PartyCard';
 import { PartyButton } from '../components/PartyButton';
@@ -8,11 +9,17 @@ import { motion } from 'framer-motion';
 
 const Quiz = () => {
   const facts = useGameStore(state => state.facts);
+  const loadFacts = useGameStore(state => state.loadFacts);
+  console.log(facts)
+
+  useEffect(() => {
+    loadFacts();
+  }, []);
 
   return (
     <div className="min-h-screen relative p-4">
       <AnimatedBackground />
-      
+
       <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <motion.div
@@ -65,9 +72,9 @@ const Quiz = () => {
                         Факт #{index + 1}
                       </h3>
                       <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                        {fact.fact.length > 100 
+                        {fact.fact.length > 100
                           ? fact.fact.substring(0, 100) + '...'
-                          : fact.fact
+                          : fact.ai_fact
                         }
                       </p>
                       <Link to={`/fact/${fact.id}`}>

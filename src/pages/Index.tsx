@@ -1,5 +1,6 @@
 
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useGameStore } from '../store/gameStore';
 import { PartyCard } from '../components/PartyCard';
 import { PartyButton } from '../components/PartyButton';
@@ -7,7 +8,16 @@ import { AnimatedBackground } from '../components/AnimatedBackground';
 import { motion } from 'framer-motion';
 
 const Index = () => {
-  const { activeUser, users, facts, logout } = useGameStore();
+  const { activeUser, users, facts, logout, loadUsers, loadFacts } = useGameStore();
+
+  useEffect(() => {
+    loadUsers();
+    loadFacts();
+    const interval = setInterval(() => {
+      loadUsers();
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen relative p-4">

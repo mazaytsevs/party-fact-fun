@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '../store/gameStore';
@@ -6,17 +5,35 @@ import { PartyCard } from '../components/PartyCard';
 import { PartyButton } from '../components/PartyButton';
 import { AnimatedBackground } from '../components/AnimatedBackground';
 import { motion } from 'framer-motion';
+import { usersApi } from '../lib/api/users';
+import { toast } from 'sonner';
 
 const Login = () => {
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const login = useGameStore(state => state.login);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim()) {
-      login(name.trim());
+    if (!name.trim()) return;
+
+    setIsLoading(true);
+    try {
+      const user = await usersApi.createUser({
+        name: name.trim(),
+        email: `${name.trim().toLowerCase()}@party-fact-fun.com` // Временное решение для email
+      });
+
+      // Обновляем store с данными от сервера
+      login(user.name, user.id);
+      toast.success('Добро пожаловать в игру! 🎉');
       navigate('/');
+    } catch (error) {
+      console.error('Failed to create user:', error);
+      toast.error('Не удалось войти в игру. Попробуйте еще раз.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,6 +67,7 @@ const Login = () => {
               className="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
               placeholder="Например: Анна"
               required
+              disabled={isLoading}
             />
           </div>
           
@@ -57,9 +75,9 @@ const Login = () => {
             variant="primary" 
             size="lg" 
             className="w-full"
-            disabled={!name.trim()}
+            disabled={!name.trim() || isLoading}
           >
-            🚀 Войти в игру
+            {isLoading ? '⏳ Входим...' : '🚀 Войти в игру'}
           </PartyButton>
         </form>
       </PartyCard>
