@@ -5,8 +5,8 @@ import { PartyCard } from '../components/PartyCard';
 import { PartyButton } from '../components/PartyButton';
 import { AnimatedBackground } from '../components/AnimatedBackground';
 import { motion } from 'framer-motion';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const host = window.location.hostname;
+export const API_URL = `http://${host}:5001/api`;
 
 const FactDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -58,7 +58,7 @@ const FactDetail = () => {
     e.preventDefault();
     if (selectedUserId && activeUser) {
       try {
-        await fetch(`${API_URL}/answers`, {
+        const response = await fetch(`${API_URL}/answers`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -69,13 +69,18 @@ const FactDetail = () => {
             guessUserId: selectedUserId
           })
         });
+
+        if (!response.ok) {
+          throw new Error('Ответ от сервера не 200');
+        }
+
+        const result = await response.json();
+
+        setIsCorrect(Boolean(result.isCorrect));
+        setShowResult(true);
       } catch (err) {
         console.error('Ошибка при отправке ответа:', err);
       }
-
-      const correct = submitAnswer(fact.id, selectedUserId);
-      setIsCorrect(correct);
-      setShowResult(true);
     }
   };
 
@@ -183,11 +188,7 @@ const FactDetail = () => {
                 }`}>
                   {isCorrect ? 'Правильно!' : 'Неправильно!'}
                 </h2>
-                <p className="text-lg text-gray-700">
-                  Автор факта: <span className="font-bold text-purple-600">
-                    {author?.name}
-                  </span>
-                </p>
+
                 {isCorrect && activeUser && (
                   <p className="text-sm text-green-600 mt-2">
                     +1 очко! Ваш счёт: {activeUser.score}

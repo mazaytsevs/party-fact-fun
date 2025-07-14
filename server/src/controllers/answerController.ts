@@ -3,6 +3,7 @@ import {pool} from "../index";
 
 export const answerController = {
   async submitAnswer(req: Request, res: Response) {
+    console.log('hey')
     try {
       const { userId, factId, guessUserId } = req.body;
 
@@ -20,17 +21,24 @@ export const answerController = {
 
       return res.json({ userId, factId, isCorrect });
     } catch (error) {
+      console.log(error)
       res.status(500).json({ error: 'Failed to submit answer' });
     }
   },
 
   async getAnswers(req: Request, res: Response) {
     try {
-      // Здесь будет ваша логика работы с базой данных
-      // Пока возвращаем пустой массив
-      res.json([]);
+      const result = await pool.query(
+        `SELECT users.id AS user_id, users.name, COUNT(*) AS score
+         FROM answers
+         JOIN users ON answers.user_id = users.id
+         WHERE answers.correct = true
+         GROUP BY users.id, users.name
+         ORDER BY score DESC`
+      );
+      res.json(result.rows);
     } catch (error) {
       res.status(500).json({ error: 'Failed to get answers' });
     }
   }
-}; 
+};

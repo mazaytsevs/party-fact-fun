@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/api';
+const host = window.location.hostname;
+export const API_URL = `http://${host}:5001/api`;
 
 export interface Fact {
   id: string;

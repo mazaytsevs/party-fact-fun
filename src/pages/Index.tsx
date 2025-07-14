@@ -80,53 +80,53 @@ const Index = () => {
         {/* Main Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {!activeUser ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <PartyCard className="text-center h-full">
-                <div className="text-4xl mb-4">🚀</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
-                  Войти в игру
-                </h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Введите имя и присоединяйтесь к веселью
-                </p>
-                <Link to="/login">
-                  <PartyButton variant="primary" className="w-full">
-                    Войти
-                  </PartyButton>
-                </Link>
-              </PartyCard>
-            </motion.div>
+              <motion.div
+                  initial={{opacity: 0, y: 20}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{delay: 0.1}}
+              >
+                <PartyCard className="text-center h-full">
+                  <div className="text-4xl mb-4">🚀</div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                    Войти в игру
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Введите имя и присоединяйтесь к веселью
+                  </p>
+                  <Link to="/login">
+                    <PartyButton variant="primary" className="w-full">
+                      Войти
+                    </PartyButton>
+                  </Link>
+                </PartyCard>
+              </motion.div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <PartyCard className="text-center h-full">
-                <div className="text-4xl mb-4">📝</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
-                  Добавить факт
-                </h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Поделитесь интересным фактом о себе
-                </p>
-                <Link to="/add-fact">
-                  <PartyButton variant="success" className="w-full">
-                    Добавить
-                  </PartyButton>
-                </Link>
-              </PartyCard>
-            </motion.div>
+              <motion.div
+                  initial={{opacity: 0, y: 20}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{delay: 0.1}}
+              >
+                <PartyCard className="text-center h-full">
+                  <div className="text-4xl mb-4">📝</div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                    Добавить факт
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Поделитесь интересным фактом о себе
+                  </p>
+                  <Link to="/add-fact">
+                    <PartyButton variant="success" className="w-full">
+                      Добавить
+                    </PartyButton>
+                  </Link>
+                </PartyCard>
+              </motion.div>
           )}
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{delay: 0.2}}
           >
             <PartyCard className="text-center h-full">
               <div className="text-4xl mb-4">🎲</div>
@@ -137,10 +137,10 @@ const Index = () => {
                 Угадывайте авторов фактов и зарабатывайте очки
               </p>
               <Link to="/quiz">
-                <PartyButton 
-                  variant="warning" 
-                  className="w-full"
-                  disabled={facts.length === 0}
+                <PartyButton
+                    variant="warning"
+                    className="w-full"
+                    disabled={facts.length === 0}
                 >
                   {facts.length === 0 ? 'Нет фактов' : 'Играть'}
                 </PartyButton>
@@ -149,9 +149,9 @@ const Index = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{delay: 0.3}}
           >
             <PartyCard className="text-center h-full">
               <div className="text-4xl mb-4">🏆</div>
@@ -168,14 +168,23 @@ const Index = () => {
               </Link>
             </PartyCard>
           </motion.div>
+          <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{delay: 0.3}}
+          >
+            <PartyCard className="text-center h-full">
+              <img src="../public/qr-code.png" alt=""/>
+            </PartyCard>
+          </motion.div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{delay: 0.4}}
           >
             <PartyCard className="text-center bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
               <div className="text-3xl mb-2">👥</div>

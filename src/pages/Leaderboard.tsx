@@ -1,14 +1,22 @@
 
 import { Link } from 'react-router-dom';
-import { useGameStore } from '../store/gameStore';
+import { useEffect, useState } from 'react';
 import { PartyCard } from '../components/PartyCard';
 import { PartyButton } from '../components/PartyButton';
 import { AnimatedBackground } from '../components/AnimatedBackground';
 import { motion } from 'framer-motion';
 
+const host = window.location.hostname;
+export const API_URL = `http://${host}:5001/api`;
 const Leaderboard = () => {
-  const getLeaderboard = useGameStore(state => state.getLeaderboard);
-  const leaderboard = getLeaderboard();
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/answers`)
+      .then(res => res.json())
+      .then(data => setLeaderboard(data))
+      .catch(err => console.error('Ошибка загрузки лидерборда:', err));
+  }, []);
 
   const getMedal = (position: number) => {
     switch (position) {
@@ -124,6 +132,9 @@ const Leaderboard = () => {
                     <strong>Участников:</strong> {leaderboard.length} • 
                     <strong> Всего очков:</strong> {leaderboard.reduce((sum, user) => sum + user.score, 0)}
                   </p>
+                  <div className="mt-2 text-gray-700 text-sm">
+                    <strong>Победители:</strong> {leaderboard.slice(0, 3).map(u => u.name).join(', ')}
+                  </div>
                 </div>
               </PartyCard>
               

@@ -38,7 +38,8 @@ interface GameState {
   loadFacts: () => Promise<void>;
 }
 
-const API_URL = 'http://localhost:5001/api';
+const host = window.location.hostname;
+export const API_URL = `http://${host}:5001/api`;
 
 export const useGameStore = create<GameState>((set, get) => ({
   users: [],
